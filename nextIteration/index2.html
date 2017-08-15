@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<title>Job exercise</title>
+
+</head>
+
+<body>
+
+	<script type="text/javascript" src="https://unpkg.com/vue@2.3.4"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
+	<style type="text/css" src="theme.css"></style>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+	
+	<div class="container" id="app">
+		<div class="header clearfix container">
+		  <nav>
+		    <ul class="nav nav-pills pull-right ">
+		      <li role="presentation">
+		        <a href="#" @click="currentView='thepost'">Posts</a>
+		      </li>
+		      <li role="presentation">
+		        <a href="#" @click="currentView='thealbum'">Albums</a>
+		      </li>
+		      <li role="presentation">
+		      	<a href="#" @click="currentView='thephotos'">Photos</a>
+		      </li>
+		    </ul>
+		  </nav>
+		  <h3 class="text-muted">Job Exercises</h3>
+		</div>
+
+	
+
+	
+	 	 <component :is="currentView" keep-alive transition="fade" transition-mode="out-in" @pressed="currentView='thephotos'">></component>
+	</div>
+
+	<div id="bus">
+		<div @pressed="currentView='thephotos'">
+		</div>
+	</div>
+
+	
+
+	
+	<script type="text/javascript" src="main.js"></script>
+</body>
+
+</html>
