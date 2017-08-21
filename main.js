@@ -5,7 +5,7 @@ var photosLink = 'https://jsonplaceholder.typicode.com/photos?albumId=';
 
 
 
-Vue.component('thepost', {
+const thepost = {
   props: ['pid', 'posttitle', 'postbody'],
 
   data: function() {
@@ -75,7 +75,7 @@ Vue.component('thepost', {
     },
 
 
-});
+};
 
 
 Vue.component('thecomment', {
@@ -99,15 +99,14 @@ Vue.component('thecomment', {
 });
 
 
-Vue.component('thealbum', {
+const thealbum = {
 
-	props: ['albumtitle', 'albumid'],
+	props: ['id'],
 
 	data: function() {
 
 	  	return{
 	  		albumsList: [],
-			photosList: [],
 	  	}
 
   	},
@@ -116,9 +115,9 @@ Vue.component('thealbum', {
 		<div>
 			<div class="jumbotron" v-for="album in albumsList">
 				<h2>{{album.title}}</h2>
-				<a class="btn btn-primary btn-lg" role="button" v-on:click="getPhotos(album.id)">Watch</a>
-				
+				<router-link :to="{path: 'photos', query: {id: album.id}}" class="btn btn-info" role="button" target="_blank">Watch</router-link>
 			</div>
+			<router-view></router-view>
 		</div>
 	`,
 
@@ -133,11 +132,6 @@ Vue.component('thealbum', {
             });
         },
 
-    getPhotos: function(id){
-			bus.$emit('pressed', id)
-	},
-
-
 	},
 
 	
@@ -145,7 +139,7 @@ Vue.component('thealbum', {
         this.getAlbums();
     },
 
-});
+};
 
 const thephotos = {
 
@@ -160,44 +154,40 @@ const thephotos = {
 
 	template: `
 		
-		<div class="row">
-		<div class="container">
-		
-		  <div class="col-xs-6 col-md-3">
-		    <div class="thumbnail" v-for="photo in thephotosList">
-		      <img src="photo.thumbnailUrl" alt="photo.title">
-		      <div class="caption">
-		        <h3>{{photo.id}}</h3>
-		      </div>
+
+		<div class="container" :id="getThem">
+		  <div class="col-xs-4 col-md-2" v-for="photo in thephotosList">
+		    <div class="thumbnail">
+		      <a :href="photo.url" data-fancybox="images" :data-caption="photo.title">
+		      	<img :src="photo.thumbnailUrl" alt="">
+		      </a>
 		    </div>
 		  </div>
-		 
-		</div>
 		</div>
 	
 	`,
 
-	created: function(){
-		bus.$on('pressed', function(id){
-			this.$http.get(photosLink + id).then(function(response){
-                vm.thephotosList = response.data;
-            }, function(error){
-                console.log(error.statusText);
-            });
-		})
-	},
+	
 
-
+	computed:{
+		getThem: function(){
+				this.$http.get(photosLink + this.$route.query.id).then(function(response){
+		                this.thephotosList = response.data;
+		            }, function(error){
+		                console.log(error.statusText);
+		            });
+		}
+	}
 
 }
 
 
-const bus = new Vue()
-
 
 const router = new VueRouter({
   routes: [
-    { path: '/thephotos', component: thephotos, props: (route) => ({ query: route.query.id }) }
+    { path: '/photos', component: thephotos},
+    { path: '/posts', component: thepost},
+    { path: '/albums', component: thealbum}
   ]
 });
 
@@ -224,12 +214,4 @@ new Vue({
     },
 
 }).$mount('#app')
-
-
-
-
-
-
-
-
 
