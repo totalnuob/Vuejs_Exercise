@@ -18,6 +18,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js"></script>
+
 
 	
 	<div class="container" id="app">
@@ -25,23 +28,17 @@
 		  <nav>
 		    <ul class="nav nav-pills pull-right ">
 		      <li role="presentation">
-		        <a href="#" @click="currentView='thepost'">Posts</a>
+		        <router-link to="/posts">Posts</router-link>
 		      </li>
 		      <li role="presentation">
-		        <a href="#" @click="currentView='thealbum'">Albums</a>
-		      </li>
-		      <li role="presentation">
-		      	<a href="#" @click="currentView='thephotos'">Photos</a>
+		        <router-link to="/albums">Albums</router-link>
 		      </li>
 		    </ul>
 		  </nav>
 		  <h3 class="text-muted">Job Exercises</h3>
 		</div>
-
+		<router-view></router-view>
 	
-
-	
-	 	 <component :is="currentView" keep-alive transition="fade" transition-mode="out-in"></component>
 	</div>
 	
 
